@@ -1,5 +1,84 @@
 [
     {
+        "id": "b005dd89083e4bbd",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0141fbe882fe6869",
+        "type": "function",
+        "z": "b005dd89083e4bbd",
+        "name": "Generate Data (CSV Format)",
+        "func": "var d = new Date();\nvar date = d.getFullYear();\ndate += \"/\" + (d.getMonth() + 1); // เพิ่ม +1 เพราะเดือนเริ่มที่ 0\ndate += \"/\" + d.getDate();\ndate += \" \" + d.getHours();\ndate += \":\" + d.getMinutes();\ndate += \":\" + d.getSeconds();\n\nvar tempp = msg.payload.temperature;// 0.0 - 50.0\nvar humid = msg.payload.humidity;   // 50.0 - 100.0\n\n// สร้าง String สำหรับบันทึกลง CSV\nvar data = date + \",\" + tempp.toFixed(2) + \",\" + humid.toFixed(2);\n\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 580,
+        "wires": [
+            [
+                "5c8cfd9dd5aa60e9"
+            ]
+        ]
+    },
+    {
+        "id": "5c8cfd9dd5aa60e9",
+        "type": "file",
+        "z": "b005dd89083e4bbd",
+        "name": "Save to CSV",
+        "filename": "C:\\MyProject\\data.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 670,
+        "y": 580,
+        "wires": [
+            [
+                "37666f6421910779",
+                "8d6ab1bcfbb88e63"
+            ]
+        ]
+    },
+    {
+        "id": "37666f6421910779",
+        "type": "debug",
+        "z": "b005dd89083e4bbd",
+        "name": "Debug Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "bd38624933705f4b",
+        "type": "telegram sender",
+        "z": "b005dd89083e4bbd",
+        "name": "",
+        "bot": "1df2f7f28f51fc57",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 890,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "8d6ab1bcfbb88e63",
         "type": "function",
         "z": "b005dd89083e4bbd",
@@ -18,5 +97,92 @@
                 "bd38624933705f4b"
             ]
         ]
+    },
+    {
+        "id": "5fe6e4763b9da63a",
+        "type": "mqtt in",
+        "z": "b005dd89083e4bbd",
+        "name": "",
+        "topic": "Sarun1",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "4a05c8addcbcc667",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 580,
+        "wires": [
+            [
+                "0141fbe882fe6869"
+            ]
+        ]
+    },
+    {
+        "id": "1df2f7f28f51fc57",
+        "type": "telegram bot",
+        "botname": "SarunD_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "4a05c8addcbcc667",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.emqx.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6f0549dba2dc6c93",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-telegrambot": "17.1.3"
+        }
     }
 ]
