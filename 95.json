@@ -1,0 +1,22 @@
+[
+    {
+        "id": "8d6ab1bcfbb88e63",
+        "type": "function",
+        "z": "b005dd89083e4bbd",
+        "name": "function 5",
+        "func": "let data = msg.payload.toString().split(\",\");\n\nlet t = parseFloat(data[1]);\nlet h = parseFloat(data[2]);\n\nlet alertMsg = \"\";\nconst tmax = 30;\nconst hmax = 50;\n\n// เช็คเงื่อนไขเหมือนเดิม\nif (t > tmax && h > hmax) {\n    alertMsg = \"🔥 อุณหภูมิสูงเกินไป: \" + t + \"°C\\n💧 ความชื้นสูงเกินไป: \" + h + \"%\";\n} else if (t > tmax) {\n    alertMsg = \"🔥 อุณหภูมิสูงเกินไป: \" + t + \"°C\";\n} else if (h > hmax) {\n    alertMsg = \"💧 ความชื้นสูงเกินไป: \" + h + \"%\";\n}\n\nif (alertMsg !== \"\") {\n    msg.payload = {\n        chatId: 8786949881, // ตรวจสอบ ID นี้อีกครั้งว่าถูกไหม\n        type: 'message',\n        content: \"⚠️ แจ้งเตือนสถานะ!\\n\" + alertMsg\n    };\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 340,
+        "wires": [
+            [
+                "bd38624933705f4b"
+            ]
+        ]
+    }
+]
